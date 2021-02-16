@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 5
+
+Resources:
+  GoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Environment:
+        Variables:
+          HTTPS_PROXY: http://localhost:8888
+          CHAOS_LATENCY_MS: "1000"
+    Metadata:
+      DockerTag: golang-v1
+      DockerContext: ./functions/go
+      Dockerfile: Dockerfile
+
+  PyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Environment:
+        Variables:
+          HTTPS_PROXY: http://localhost:8888
+          CHAOS_LATENCY_MS: "2000"
+    Metadata:
+      DockerTag: golang-v1
+      DockerContext: ./functions/py
+      Dockerfile: Dockerfile
